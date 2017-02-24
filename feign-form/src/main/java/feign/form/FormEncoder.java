@@ -85,11 +85,11 @@ public class FormEncoder implements Encoder {
         processors = new HashMap<String, FormDataProcessor>(2, 1.F);
 
         val formEncodedDataProcessor = new FormEncodedDataProcessor();
-        processors.put(formEncodedDataProcessor.getSupportetContentType().toLowerCase(),
+        processors.put(formEncodedDataProcessor.getSupportedContentType().toLowerCase(),
                        formEncodedDataProcessor);
 
         val multipartEncodedDataProcessor = new MultipartEncodedDataProcessor();
-        processors.put(multipartEncodedDataProcessor.getSupportetContentType().toLowerCase(),
+        processors.put(multipartEncodedDataProcessor.getSupportedContentType().toLowerCase(),
                        multipartEncodedDataProcessor);
     }
 

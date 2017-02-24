@@ -39,5 +39,5 @@ public interface FormDataProcessor {
      *
      * @return supported MIME Content-Type
      */
-    String getSupportetContentType ();
+    String getSupportedContentType();
 }

@@ -52,7 +52,7 @@ public class FormEncodedDataProcessor implements FormDataProcessor {
     }
 
     @Override
-    public String getSupportetContentType () {
+    public String getSupportedContentType() {
         return CONTENT_TYPE;
     }
 
