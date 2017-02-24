@@ -15,14 +15,13 @@
  */
 package feign.form.spring;
 
+import feign.codec.EncodeException;
+import feign.form.MultipartEncodedDataProcessor;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import feign.codec.EncodeException;
-import feign.form.MultipartEncodedDataProcessor;
 
 /**
  * Adds support for {@link MultipartFile} type to {@link MultipartEncodedDataProcessor}.
@@ -32,23 +31,43 @@ import feign.form.MultipartEncodedDataProcessor;
  */
 public class SpringMultipartEncodedDataProcessor extends MultipartEncodedDataProcessor {
 
-    @Override
-    protected boolean isPayload (Object value) {
-        return super.isPayload(value) || value instanceof MultipartFile;
-    }
+	@Override
+	protected boolean isPayload(Object value) {
+		return super.isPayload(value) || isMultipart(value);
+	}
 
-    @Override
-    protected void writeByteOrFile (OutputStream output, PrintWriter writer, String name, Object value) {
-        if (value instanceof MultipartFile) {
-            try {
-                MultipartFile mpf = (MultipartFile) value;
-                writeByteArray(output, writer, name, mpf.getOriginalFilename(), mpf.getContentType(), mpf.getBytes());
-            } catch (IOException e) {
-                throw new EncodeException("Can't encode MultipartFile", e);
-            }
-            return;
-        }
+	private boolean isMultipart(Object value) {
+		if (value instanceof MultipartFile)
+			return true;
+		if (value.getClass().isArray())
+			return isMultipartArray(value);
+		// TODO add collections/map also?
+		return false;
+	}
 
-        super.writeByteOrFile(output, writer, name, value);
-    }
+	private boolean isMultipartArray(Object value) {
+		return value instanceof MultipartFile[];
+	}
+
+	@Override
+	protected void writeByteOrFile(OutputStream output, PrintWriter writer, String name, Object value) {
+		if (isMultipart(value)) {
+			MultipartFile[] multipartFiles;
+			if (!isMultipartArray(value)) { // TODO add collections/map also?
+				multipartFiles = new MultipartFile[] { (MultipartFile) value };
+			} else {
+				multipartFiles = (MultipartFile[]) value;
+			}
+			try {
+				for (MultipartFile mpf : multipartFiles) {
+					writeByteArray(output, writer, name, mpf.getOriginalFilename(), mpf.getContentType(), mpf.getBytes());
+				}
+			} catch (IOException e) {
+				throw new EncodeException("Can't encode MultipartFile", e);
+			}
+			return;
+		}
+
+		super.writeByteOrFile(output, writer, name, value);
+	}
 }
