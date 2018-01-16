@@ -113,7 +113,7 @@ public class Server {
     infoPartheader.setContentType(new MediaType("text", "plain", Charset.forName(CharEncoding.UTF_8)));
     HttpEntity<String> infoPart = new HttpEntity<String>(info, infoPartheader);
 
-    ClassPathResource file = new ClassPathResource("testfile.txt");
+    ClassPathResource file = new ClassPathResource("testfile.md");
     HttpHeaders filePartheader = new HttpHeaders();
     filePartheader.setContentType(APPLICATION_OCTET_STREAM);
     HttpEntity<ClassPathResource> filePart = new HttpEntity<ClassPathResource>(file, filePartheader);
