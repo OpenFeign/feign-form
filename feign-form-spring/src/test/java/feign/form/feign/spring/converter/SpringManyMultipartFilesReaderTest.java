@@ -22,7 +22,7 @@ public class SpringManyMultipartFilesReaderTest {
     @Test
     public void readMultipartFormDataTest() throws IOException {
         final SpringManyMultipartFilesReader multipartFilesReader = new SpringManyMultipartFilesReader(4096);
-        final MultipartFile[] multipartFiles = multipartFilesReader.read(MultipartFile[].class, new ValidMulitpartMessage());
+        final MultipartFile[] multipartFiles = multipartFilesReader.read(MultipartFile[].class, new ValidMultipartMessage());
 
         Assert.assertEquals(2, multipartFiles.length);
 
@@ -35,7 +35,7 @@ public class SpringManyMultipartFilesReaderTest {
         Assert.assertEquals("Plain text", IOUtils.toString(multipartFiles[1].getInputStream(), "US-ASCII"));
     }
 
-    public static class ValidMulitpartMessage implements HttpInputMessage {
+    public static class ValidMultipartMessage implements HttpInputMessage {
         @Override
         public InputStream getBody() throws IOException {
             final String multipartBody = "--" + DUMMY_MULTIPART_BOUNDARY + "\r\n" +

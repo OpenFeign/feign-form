@@ -39,7 +39,7 @@ public class SpringMultipartDecoderTest {
         Assert.assertEquals("The text for file ID 123. Testing unicode €",
                 IOUtils.toString(downloads[0].getInputStream(), infoContentType.getCharset().name()));
 
-        Assert.assertEquals("testfile.txt", downloads[1].getOriginalFilename());
+        Assert.assertEquals("testfile.md", downloads[1].getOriginalFilename());
         Assert.assertEquals(MediaType.APPLICATION_OCTET_STREAM_VALUE, downloads[1].getContentType());
         Assert.assertEquals(13, downloads[1].getSize());
     }
