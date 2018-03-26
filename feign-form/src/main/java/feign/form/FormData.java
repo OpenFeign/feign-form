@@ -25,8 +25,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 public final class FormData {
-  private String contentType;
-  private byte[] data;
+  private final String contentType;
+  private final byte[] data;
 
   public FormData (String contentType, byte[] data) {
     this.contentType = contentType;
