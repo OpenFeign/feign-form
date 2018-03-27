@@ -105,6 +105,13 @@ In the example above, the `sendPhoto` method uses the `photo` parameter using th
 * `byte[]` will use `application/octet-stream` as `Content-Type`.
 * `FormData` will use the `FormData`'s `Content-Type`.
 
+`FormData` is custom object that wraps a `byte[]` and defines a `Content-Type` like this:
+
+```java
+    FormData formData = new FormData("image/png", myDataAsByteArray);
+    someApi.sendPhoto(true, formData);
+```
+
 ### Spring MultipartFile and Spring Cloud Netflix @FeignClient support
 
 You can also use Form Encoder with Spring `MultipartFile` and `@FeignClient`.
