@@ -62,7 +62,7 @@ public abstract class AbstractWriter implements Writer {
     val contentDespositionBuilder = new StringBuilder()
         .append("Content-Disposition: form-data; name=\"").append(name).append("\"");
     if (fileName != null) {
-        contentDespositionBuilder.append("; ").append("filename=\"").append(fileName).append("\"");
+      contentDespositionBuilder.append("; ").append("filename=\"").append(fileName).append("\"");
     }
 
     String fileContentType = contentType;
