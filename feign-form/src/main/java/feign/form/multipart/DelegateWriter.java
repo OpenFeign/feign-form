@@ -36,7 +36,7 @@ public class DelegateWriter extends AbstractWriter {
 
   Encoder delegate;
 
-  ParameterWriter parameterWriter = new ParameterWriter();
+  SingleParameterWriter parameterWriter = new SingleParameterWriter();
 
   @Override
   public boolean isApplicable (Object value) {

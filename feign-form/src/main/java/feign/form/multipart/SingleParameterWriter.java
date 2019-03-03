@@ -25,15 +25,13 @@ import lombok.val;
  *
  * @author Artem Labazin
  */
-public class ParameterWriter extends AbstractWriter {
+public class SingleParameterWriter extends AbstractWriter {
 
   @Override
   public boolean isApplicable (Object value) {
-    if (value == null) {
-      return false;
-    }
     return value instanceof Number ||
-           value instanceof String;
+           value instanceof CharSequence ||
+           value instanceof Boolean;
   }
 
   @Override

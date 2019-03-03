@@ -17,6 +17,7 @@
 package feign.form;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -74,4 +75,12 @@ public interface TestClient {
   @RequestLine("POST /upload/form_data")
   @Headers("Content-Type: multipart/form-data")
   String uploadFormData (@Param("file") FormData formData);
+
+  @RequestLine("POST /submit/url")
+  @Headers("Content-Type: application/x-www-form-urlencoded")
+  String submitRepeatableQueryParam (@Param("names") String[] names);
+
+  @RequestLine("POST /submit/form")
+  @Headers("Content-Type: multipart/form-data")
+  String submitRepeatableFormParam (@Param("names") Collection<String> names);
 }

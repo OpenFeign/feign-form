@@ -364,7 +364,6 @@ limitations under the License.
           <encoding>UTF-8</encoding>
           <failOnError>true</failOnError>
           <show>protected</show>
-          <source>${java.version}</source>
           <version>true</version>
         </configuration>
         <executions>
