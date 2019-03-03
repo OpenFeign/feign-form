@@ -48,7 +48,7 @@ interface SomeApi {
 
   @RequestLine("POST /form")
   @Headers("Content-Type: application/x-www-form-urlencoded")
-  void from (@Param("field1") String field1, @Param("field2") String field2);
+  void from (@Param("field1") String field1, @Param("field2") String[] values);
 }
 ```
 
