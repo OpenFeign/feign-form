@@ -133,4 +133,24 @@ public class SpringFormEncoderTest {
     val response = client.upload6Collection(list);
     Assert.assertEquals("Hello world", response);
   }
+
+  @Test
+  public void upload7ArrayTest () throws Exception {
+    val file1 = new MockMultipartFile("files", "debug", null, "Hello".getBytes(UTF_8));
+    val file2 = new MockMultipartFile("files", "release", null, " world".getBytes(UTF_8));
+
+    val response = client.upload7Array(new MultipartFile[] { file1, file2 });
+    Assert.assertEquals("Hello world", response);
+  }
+
+  @Test
+  public void upload7CollectionTest () throws Exception {
+    List<MultipartFile> list = asList(
+            new MockMultipartFile("files", "debug", null, "Hello".getBytes(UTF_8)),
+            new MockMultipartFile("files", "release", null, " world".getBytes(UTF_8))
+    );
+
+    val response = client.upload7Collection(list);
+    Assert.assertEquals("Hello world", response);
+  }
 }

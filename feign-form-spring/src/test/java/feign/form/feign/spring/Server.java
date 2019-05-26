@@ -25,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import lombok.SneakyThrows;
@@ -131,6 +132,19 @@ public class Server {
       result = new String(popa1.getBytes()) + new String(popa2.getBytes());
     }
     return ResponseEntity.status(status).body(result);
+  }
+
+  @RequestMapping(
+          path = "/multipart/upload7",
+          method = POST,
+          consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload7 (@RequestParam("files") MultipartFile[] files) throws Exception {
+    StringBuilder result = new StringBuilder();
+    for (MultipartFile kek: files) {
+      result.append(new String(kek.getBytes()));
+    }
+    return ResponseEntity.ok(result.toString());
   }
 
   @RequestMapping(

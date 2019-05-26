@@ -20,7 +20,9 @@ import static feign.form.ContentType.MULTIPART;
 import static java.util.Collections.singletonMap;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import feign.RequestTemplate;
 import feign.codec.EncodeException;
@@ -63,22 +65,15 @@ public class SpringFormEncoder extends FormEncoder {
   public void encode (Object object, Type bodyType, RequestTemplate template) throws EncodeException {
     if (bodyType.equals(MultipartFile[].class)) {
       val files = (MultipartFile[]) object;
-      val data = new HashMap<String, Object>(files.length, 1.F);
-      for (val file : files) {
-        data.put(file.getName(), file);
-      }
+      val data = Arrays.stream(files).collect(Collectors.groupingBy(MultipartFile::getName));
       super.encode(data, MAP_STRING_WILDCARD, template);
     } else if (bodyType.equals(MultipartFile.class)) {
       val file = (MultipartFile) object;
       val data = singletonMap(file.getName(), object);
       super.encode(data, MAP_STRING_WILDCARD, template);
     } else if (isMultipartFileCollection(object)) {
-      val iterable = (Iterable<?>) object;
-      val data = new HashMap<String, Object>();
-      for (val item : iterable) {
-        val file = (MultipartFile) item;
-        data.put(file.getName(), file);
-      }
+      val iterable = (Iterable<MultipartFile>) object;
+      val data =  StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.groupingBy(MultipartFile::getName));
       super.encode(data, MAP_STRING_WILDCARD, template);
     } else {
       super.encode(object, bodyType, template);
