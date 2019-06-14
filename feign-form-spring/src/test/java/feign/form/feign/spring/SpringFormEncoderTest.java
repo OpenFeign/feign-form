@@ -124,6 +124,14 @@ public class SpringFormEncoderTest {
   }
 
   @Test
+  public void upload6ActuallyTest () throws Exception {
+    val file1 = new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8));
+    val file2 = new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8));
+
+    val response = client.upload6Actually(new MultipartFile[] { file1, file2 });
+    Assert.assertEquals("Hello world", response);
+  }
+  @Test
   public void upload6CollectionTest () throws Exception {
     List<MultipartFile> list = asList(
         (MultipartFile) new MockMultipartFile("popa1", "popa1", null, "Hello".getBytes(UTF_8)),

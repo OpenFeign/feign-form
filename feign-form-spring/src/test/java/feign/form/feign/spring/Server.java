@@ -133,6 +133,24 @@ public class Server {
     return ResponseEntity.status(status).body(result);
   }
 
+
+  @RequestMapping(
+          path = "/multipart/upload6Actually",
+          method = POST,
+          consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload6 (@RequestParam("files") MultipartFile[] files) throws Exception {
+    HttpStatus status = I_AM_A_TEAPOT;
+    String result = "";
+    if (files != null && files.length> 0) {
+      for(MultipartFile file: files){
+        status = OK;
+        result += new String(file.getBytes());
+      }
+    }
+    return ResponseEntity.status(status).body(result);
+  }
+
   @RequestMapping(
       path = "/multipart/download/{fileId}",
       method = GET,
