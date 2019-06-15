@@ -64,7 +64,7 @@ public class SpringFormEncoder extends FormEncoder {
   public void encode (Object object, Type bodyType, RequestTemplate template) throws EncodeException {
     if (bodyType.equals(MultipartFile[].class)) {
       val files = (MultipartFile[]) object;
-      val data = new LinkedMultiValueMap<>(files.length);
+      val data = new LinkedMultiValueMap<String, MultipartFile>(files.length);
       for (val file : files) {
         data.add(file.getName(), file);
       }
