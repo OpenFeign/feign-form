@@ -133,7 +133,6 @@ public class Server {
     return ResponseEntity.status(status).body(result);
   }
 
-
   @RequestMapping(
           path = "/multipart/upload6Actually",
           method = POST,
