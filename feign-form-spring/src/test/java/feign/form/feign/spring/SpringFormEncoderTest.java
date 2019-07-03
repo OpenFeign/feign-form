@@ -131,6 +131,7 @@ public class SpringFormEncoderTest {
     val response = client.upload6Actually(new MultipartFile[] { file1, file2 });
     Assert.assertEquals("Hello world", response);
   }
+
   @Test
   public void upload6CollectionTest () throws Exception {
     List<MultipartFile> list = asList(

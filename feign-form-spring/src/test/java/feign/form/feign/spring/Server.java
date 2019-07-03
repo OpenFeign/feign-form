@@ -142,8 +142,8 @@ public class Server {
   public ResponseEntity<String> upload6 (@RequestParam("files") MultipartFile[] files) throws Exception {
     HttpStatus status = I_AM_A_TEAPOT;
     String result = "";
-    if (files != null && files.length> 0) {
-      for(MultipartFile file: files){
+    if (files != null && files.length > 0) {
+      for (MultipartFile file: files) {
         status = OK;
         result += new String(file.getBytes());
       }
