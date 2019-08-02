@@ -82,6 +82,15 @@ public class BasicClientTest {
     val stringResponse = API.upload(path.toFile());
     Assert.assertEquals(Files.size(path), Long.parseLong(stringResponse));
   }
+  
+  @Test
+  public void testUploadContent () throws Exception {
+    val path = Paths.get(Thread.currentThread().getContextClassLoader().getResource("file.txt").toURI());
+    Assert.assertTrue(Files.exists(path));
+
+    val stringResponse = API.upload(ContentType.MULTIPART, path.toFile());
+    Assert.assertEquals(Files.size(path), Long.parseLong(stringResponse));
+  }
 
   @Test
   public void testUploadWithParam () throws Exception {
