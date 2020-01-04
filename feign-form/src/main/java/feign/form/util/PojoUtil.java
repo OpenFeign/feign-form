@@ -16,7 +16,6 @@
 
 package feign.form.util;
 
-import static java.lang.reflect.Modifier.isFinal;
 import static java.lang.reflect.Modifier.isStatic;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -63,7 +62,7 @@ public final class PojoUtil {
     val setAccessibleAction = new SetAccessibleAction();
     for (val field : type.getDeclaredFields()) {
       val modifiers = field.getModifiers();
-      if (isFinal(modifiers) || isStatic(modifiers)) {
+      if (isStatic(modifiers)) {
         continue;
       }
       setAccessibleAction.setField(field);
