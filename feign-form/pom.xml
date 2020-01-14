@@ -41,6 +41,12 @@ limitations under the License.
         <configuration>
           <instructions>
             <Export-Package>feign.form</Export-Package>
+            <Import-Package>
+              !lombok,
+              javax.inject;version=0.0.0,
+              javax.annotation;version=0.0.0,
+              *
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>
