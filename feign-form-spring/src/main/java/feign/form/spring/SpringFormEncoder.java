@@ -59,6 +59,15 @@ public class SpringFormEncoder extends FormEncoder {
     processor.addFirstWriter(new SpringManyMultipartFilesWriter());
   }
 
+  public SpringFormEncoder(PojoSerializationWriter pojoSerializationWriter, Encoder delegate) {
+    super(delegate);
+
+    val processor = (MultipartFormContentProcessor) getContentProcessor(MULTIPART);
+    processor.addFirstWriter(new SpringSingleMultipartFileWriter());
+    processor.addFirstWriter(new SpringManyMultipartFilesWriter());
+    processor.addFirstWriter(pojoSerializationWriter);
+  }
+
   @Override
   public void encode (Object object, Type bodyType, RequestTemplate template) throws EncodeException {
     if (bodyType.equals(MultipartFile[].class)) {

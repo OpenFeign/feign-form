@@ -25,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import lombok.SneakyThrows;
@@ -121,9 +122,11 @@ public class Server {
       method = POST,
       consumes = MULTIPART_FORM_DATA_VALUE
   )
-  public ResponseEntity<String> upload6 (@RequestParam("popa1") MultipartFile popa1,
-                                         @RequestParam("popa2") MultipartFile popa2
+  public ResponseEntity<String> upload6 (@RequestPart("files") List<MultipartFile> files
   ) throws Exception {
+    MultipartFile popa1 = files.get(0);
+    MultipartFile popa2 = files.get(1);
+
     HttpStatus status = I_AM_A_TEAPOT;
     String result = "";
     if (popa1 != null && popa2 != null) {
@@ -131,6 +134,31 @@ public class Server {
       result = new String(popa1.getBytes()) + new String(popa2.getBytes());
     }
     return ResponseEntity.status(status).body(result);
+  }
+
+  @RequestMapping(
+      path = "/multipart/upload7",
+      method = POST,
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload7 (@RequestPart("pojo") Pojo pojo
+  ) throws Exception {
+    val result = pojo.getField1() + pojo.getField2() + pojo.getField3();
+
+    return ResponseEntity.ok(result);
+  }
+
+  @RequestMapping(
+          path = "/multipart/upload8",
+          method = POST,
+          consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload8 (@RequestPart("pojo") Pojo pojo, @RequestPart("files") List<MultipartFile> files
+  ) throws Exception {
+    val result1 = pojo.getField1() + pojo.getField2() + pojo.getField3();
+    val result2 = new String(files.get(0).getBytes()) + new String(files.get(1).getBytes());
+
+    return ResponseEntity.ok(result1 + result2);
   }
 
   @RequestMapping(
