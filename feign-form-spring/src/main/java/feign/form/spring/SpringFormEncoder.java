@@ -78,13 +78,4 @@ public class SpringFormEncoder extends FormEncoder {
       super.encode(object, bodyType, template);
     }
   }
-
-  private boolean isMultipartFileCollection (Object object) {
-    if (!(object instanceof Iterable)) {
-      return false;
-    }
-    val iterable = (Iterable<?>) object;
-    val iterator = iterable.iterator();
-    return iterator.hasNext() && iterator.next() instanceof MultipartFile;
-  }
 }
