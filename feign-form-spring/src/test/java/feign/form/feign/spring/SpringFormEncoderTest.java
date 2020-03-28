@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -173,5 +174,21 @@ public class SpringFormEncoderTest {
 
     val response = client.upload8(pojo, list);
     Assert.assertEquals("Hello world1Hello world", response);
+  }
+
+  @Test
+  public void upload9Test () throws Exception {
+    List<Pojo> pojos = asList(
+        new Pojo("Hello", " world", 1),
+        new Pojo("Hello", " world", 2)
+    );
+
+    List<MultipartFile> list = asList(
+        (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
+        (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
+    );
+
+    val response = client.upload9(pojos, list);
+    Assert.assertEquals("Hello world1Hello world2Hello world", response);
   }
 }

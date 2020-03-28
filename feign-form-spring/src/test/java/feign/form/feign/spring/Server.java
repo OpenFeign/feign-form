@@ -162,6 +162,23 @@ public class Server {
   }
 
   @RequestMapping(
+      path = "/multipart/upload9",
+      method = POST,
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload9 (@RequestPart("pojos") List<Pojo> pojos, @RequestPart("files") List<MultipartFile> files
+  ) throws Exception {
+    val pojo1 = pojos.get(0);
+    val pojo2 = pojos.get(1);
+
+    val result1 = pojo1.getField1() + pojo1.getField2() + pojo1.getField3();
+    val result2 = pojo2.getField1() + pojo2.getField2() + pojo2.getField3();
+    val result3 = new String(files.get(0).getBytes()) + new String(files.get(1).getBytes());
+
+    return ResponseEntity.ok(result1 + result2 + result3);
+  }
+
+  @RequestMapping(
       path = "/multipart/download/{fileId}",
       method = GET,
       produces = MULTIPART_FORM_DATA_VALUE

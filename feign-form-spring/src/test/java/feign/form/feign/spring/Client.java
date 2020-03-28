@@ -126,6 +126,13 @@ public interface Client {
   )
   String upload8 (@RequestPart("pojo") Pojo pojo, @RequestPart("files") List<MultipartFile> files);
 
+  @RequestMapping(
+      path = "/multipart/upload9",
+      method = POST,
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  String upload9 (@RequestPart("pojos") List<Pojo> pojos, @RequestPart("files") List<MultipartFile> files);
+
   class ClientConfiguration {
 
     @Autowired

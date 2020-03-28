@@ -37,7 +37,8 @@ import java.io.IOException;
 public abstract class PojoSerializationWriter extends AbstractWriter {
   @Override
   public boolean isApplicable(Object object) {
-    return !(object instanceof MultipartFile) && !(object instanceof MultipartFile[]) && isUserPojo(object);
+    return !(object instanceof MultipartFile) && !(object instanceof MultipartFile[])
+            && (isUserPojoCollection(object) || isUserPojo(object));
   }
 
   @Override
@@ -62,4 +63,21 @@ public abstract class PojoSerializationWriter extends AbstractWriter {
   protected abstract MediaType getContentType();
 
   protected abstract String serialize(Object object) throws IOException;
+
+  private boolean isUserPojoCollection(Object object) {
+    if (!(object instanceof Iterable)) {
+      return false;
+    }
+
+    val iterable = (Iterable<?>) object;
+    val iterator = iterable.iterator();
+
+    if (iterator.hasNext()) {
+      val next = iterator.next();
+
+      return !(next instanceof MultipartFile) && isUserPojo(next);
+    } else {
+      return false;
+    }
+  }
 }
