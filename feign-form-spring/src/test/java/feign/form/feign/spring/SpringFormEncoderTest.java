@@ -146,7 +146,7 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload6CollectionSameNameTest () throws Exception {
-    val list = asList(
+    List<MultipartFile> list = asList(
         (MultipartFile) new MockMultipartFile("popa0", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("popa0", "popa2", null, " world".getBytes(UTF_8))
     );
@@ -179,13 +179,13 @@ public class SpringFormEncoderTest {
   @Test
   public void upload9ArrayTest () throws Exception {
     val pojos = new Pojo[]{
-            new Pojo("Hello", " world", 1),
-            new Pojo("Hello", " world", 2)
+        new Pojo("Hello", " world", 1),
+        new Pojo("Hello", " world", 2)
     };
 
     val list = asList(
-            (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
-            (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
+        (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
+        (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
     );
 
     val response = client.upload9Array(pojos, list);
