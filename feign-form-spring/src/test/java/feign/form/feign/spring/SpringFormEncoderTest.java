@@ -126,7 +126,7 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload6CollectionTest () throws Exception {
-    List<MultipartFile> list = asList(
+    val list = asList(
         (MultipartFile) new MockMultipartFile("popa1", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("popa2", "popa2", null, " world".getBytes(UTF_8))
     );
@@ -146,7 +146,7 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload6CollectionSameNameTest () throws Exception {
-    List<MultipartFile> list = asList(
+    val list = asList(
         (MultipartFile) new MockMultipartFile("popa0", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("popa0", "popa2", null, " world".getBytes(UTF_8))
     );
@@ -157,7 +157,7 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload7Test () throws Exception {
-    Pojo pojo = new Pojo("Hello", " world", 1);
+    val pojo = new Pojo("Hello", " world", 1);
 
     val response = client.upload7(pojo);
     Assert.assertEquals("Hello world1", response);
@@ -165,9 +165,9 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload8Test () throws Exception {
-    Pojo pojo = new Pojo("Hello", " world", 1);
+    val pojo = new Pojo("Hello", " world", 1);
 
-    List<MultipartFile> list = asList(
+    val list = asList(
         (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
     );
@@ -183,7 +183,7 @@ public class SpringFormEncoderTest {
             new Pojo("Hello", " world", 2)
     };
 
-    List<MultipartFile> list = asList(
+    val list = asList(
             (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
             (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
     );
@@ -194,12 +194,12 @@ public class SpringFormEncoderTest {
 
   @Test
   public void upload9CollectionTest () throws Exception {
-    List<Pojo> pojos = asList(
+    val pojos = asList(
         new Pojo("Hello", " world", 1),
         new Pojo("Hello", " world", 2)
     );
 
-    List<MultipartFile> list = asList(
+    val list = asList(
         (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
     );
