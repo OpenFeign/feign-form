@@ -149,9 +149,9 @@ public class Server {
   }
 
   @RequestMapping(
-          path = "/multipart/upload8",
-          method = POST,
-          consumes = MULTIPART_FORM_DATA_VALUE
+      path = "/multipart/upload8",
+      method = POST,
+      consumes = MULTIPART_FORM_DATA_VALUE
   )
   public ResponseEntity<String> upload8 (@RequestPart("pojo") Pojo pojo, @RequestPart("files") List<MultipartFile> files
   ) throws Exception {
