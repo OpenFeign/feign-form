@@ -21,7 +21,6 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
