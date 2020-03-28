@@ -131,7 +131,14 @@ public interface Client {
       method = POST,
       consumes = MULTIPART_FORM_DATA_VALUE
   )
-  String upload9 (@RequestPart("pojos") List<Pojo> pojos, @RequestPart("files") List<MultipartFile> files);
+  String upload9Array (@RequestPart("pojos") Pojo[] pojos, @RequestPart("files") List<MultipartFile> files);
+
+  @RequestMapping(
+      path = "/multipart/upload9",
+      method = POST,
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  String upload9Collection (@RequestPart("pojos") List<Pojo> pojos, @RequestPart("files") List<MultipartFile> files);
 
   class ClientConfiguration {
 

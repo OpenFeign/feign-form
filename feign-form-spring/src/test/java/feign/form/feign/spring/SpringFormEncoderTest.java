@@ -177,7 +177,23 @@ public class SpringFormEncoderTest {
   }
 
   @Test
-  public void upload9Test () throws Exception {
+  public void upload9ArrayTest () throws Exception {
+    val pojos = new Pojo[]{
+            new Pojo("Hello", " world", 1),
+            new Pojo("Hello", " world", 2)
+    };
+
+    List<MultipartFile> list = asList(
+            (MultipartFile) new MockMultipartFile("files", "popa1", null, "Hello".getBytes(UTF_8)),
+            (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
+    );
+
+    val response = client.upload9Array(pojos, list);
+    Assert.assertEquals("Hello world1Hello world2Hello world", response);
+  }
+
+  @Test
+  public void upload9CollectionTest () throws Exception {
     List<Pojo> pojos = asList(
         new Pojo("Hello", " world", 1),
         new Pojo("Hello", " world", 2)
@@ -188,7 +204,7 @@ public class SpringFormEncoderTest {
         (MultipartFile) new MockMultipartFile("files", "popa2", null, " world".getBytes(UTF_8))
     );
 
-    val response = client.upload9(pojos, list);
+    val response = client.upload9Collection(pojos, list);
     Assert.assertEquals("Hello world1Hello world2Hello world", response);
   }
 }

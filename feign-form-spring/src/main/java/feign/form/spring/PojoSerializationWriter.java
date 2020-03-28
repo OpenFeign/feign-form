@@ -65,6 +65,12 @@ public abstract class PojoSerializationWriter extends AbstractWriter {
   protected abstract String serialize(Object object) throws IOException;
 
   private boolean isUserPojoCollection(Object object) {
+    if (object.getClass().isArray()) {
+      val array = (Object[]) object;
+
+      return array.length > 1 && isUserPojo(array[0]);
+    }
+
     if (!(object instanceof Iterable)) {
       return false;
     }
