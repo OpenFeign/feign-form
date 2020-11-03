@@ -67,7 +67,7 @@ public class SpringFormEncoder extends FormEncoder {
       val files = (MultipartFile[]) object;
       val data = new LinkedMultiValueMap<String, Object>();
       for (val file : files) {
-        data.computeIfAbsent(file.getName(), name -> new ArrayList<>()).add(file);
+        data.add(file.getName(), file);
       }
       super.encode(data, MAP_STRING_WILDCARD, template);
     } else if (bodyType.equals(MultipartFile.class)) {
