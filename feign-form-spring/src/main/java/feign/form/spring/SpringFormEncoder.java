@@ -20,7 +20,6 @@ import static feign.form.ContentType.MULTIPART;
 import static java.util.Collections.singletonMap;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import feign.RequestTemplate;
