@@ -20,6 +20,7 @@ import static feign.form.ContentType.MULTIPART;
 import static java.util.Collections.singletonMap;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import feign.RequestTemplate;
@@ -29,6 +30,7 @@ import feign.form.FormEncoder;
 import feign.form.MultipartFormContentProcessor;
 
 import lombok.val;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -63,9 +65,9 @@ public class SpringFormEncoder extends FormEncoder {
   public void encode (Object object, Type bodyType, RequestTemplate template) throws EncodeException {
     if (bodyType.equals(MultipartFile[].class)) {
       val files = (MultipartFile[]) object;
-      val data = new HashMap<String, Object>(files.length, 1.F);
+      val data = new LinkedMultiValueMap<String, Object>();
       for (val file : files) {
-        data.put(file.getName(), file);
+        data.computeIfAbsent(file.getName(), name -> new ArrayList<>()).add(file);
       }
       super.encode(data, MAP_STRING_WILDCARD, template);
     } else if (bodyType.equals(MultipartFile.class)) {
