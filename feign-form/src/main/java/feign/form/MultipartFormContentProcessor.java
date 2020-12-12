@@ -42,6 +42,7 @@ import feign.form.multipart.PojoWriter;
 import feign.form.multipart.SingleFileWriter;
 import feign.form.multipart.SingleParameterWriter;
 import feign.form.multipart.Writer;
+
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 
