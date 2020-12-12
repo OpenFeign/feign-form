@@ -33,6 +33,7 @@ import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import feign.form.multipart.ByteArrayWriter;
 import feign.form.multipart.DelegateWriter;
+import feign.form.multipart.EmptyCollectionWriter;
 import feign.form.multipart.FormDataWriter;
 import feign.form.multipart.ManyFilesWriter;
 import feign.form.multipart.ManyParametersWriter;
@@ -41,13 +42,13 @@ import feign.form.multipart.PojoWriter;
 import feign.form.multipart.SingleFileWriter;
 import feign.form.multipart.SingleParameterWriter;
 import feign.form.multipart.Writer;
-
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 
 /**
  *
  * @author Artem Labazin
+ * @author Darren Foong
  */
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class MultipartFormContentProcessor implements ContentProcessor {
@@ -63,6 +64,7 @@ public class MultipartFormContentProcessor implements ContentProcessor {
    */
   public MultipartFormContentProcessor (Encoder delegate) {
     writers = new LinkedList<Writer>();
+    addWriter(new EmptyCollectionWriter());
     addWriter(new ByteArrayWriter());
     addWriter(new FormDataWriter());
     addWriter(new SingleFileWriter());
