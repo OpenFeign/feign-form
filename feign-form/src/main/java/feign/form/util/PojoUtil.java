@@ -89,15 +89,17 @@ public final class PojoUtil {
 
   public static Map<String, Object> toMap(
       final @NonNull Object object,
-      final boolean processTransient) {
+      final boolean processTransient,
+      final boolean processFinal) {
     final var result = new HashMap<String, Object>();
     var clazz = object.getClass();
     val setAccessibleAction = new SetAccessibleAction();
     while (clazz != null) {
       final var fieldResult = Arrays.stream(clazz.getDeclaredFields())
-          .filter(field -> !Modifier.isFinal(field.getModifiers()) &&
-              (processTransient || !Modifier.isTransient(field.getModifiers())) &&
-              !Modifier.isStatic(field.getModifiers()))
+          .filter(field ->
+              (processFinal || !Modifier.isFinal(field.getModifiers())) &&
+                  (processTransient || !Modifier.isTransient(field.getModifiers())) &&
+                  !Modifier.isStatic(field.getModifiers()))
           .map(field -> toMapDoOnEach(setAccessibleAction, field, object))
           .filter(entry -> entry.getValue() != null)
           .collect(Collectors.toMap(
