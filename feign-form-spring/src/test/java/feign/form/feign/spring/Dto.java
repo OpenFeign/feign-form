@@ -19,16 +19,17 @@ package feign.form.feign.spring;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @FieldDefaults(level = PRIVATE)
 public class Dto implements Serializable {
 

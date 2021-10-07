@@ -26,7 +26,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
 import java.util.Map;
-
 import lombok.SneakyThrows;
 import lombok.val;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -39,7 +38,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -122,7 +123,7 @@ public class Server {
       consumes = MULTIPART_FORM_DATA_VALUE
   )
   public ResponseEntity<String> upload6 (@RequestParam("popa1") MultipartFile popa1,
-                                         @RequestParam("popa2") MultipartFile popa2
+      @RequestParam("popa2") MultipartFile popa2
   ) throws Exception {
     HttpStatus status = I_AM_A_TEAPOT;
     String result = "";
@@ -133,12 +134,23 @@ public class Server {
     return ResponseEntity.status(status).body(result);
   }
 
+  @PostMapping(
+      path = "/multipart/upload7",
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  public ResponseEntity<String> upload7(@ModelAttribute SubDto subDto) {
+    if (subDto.getFile() == null || subDto.getSomeEnum() == null || subDto.getField1() == null) {
+      return ResponseEntity.status(I_AM_A_TEAPOT).body(subDto.toString());
+    }
+    return ResponseEntity.status(OK).body(subDto.toString());
+  }
+
   @RequestMapping(
       path = "/multipart/download/{fileId}",
       method = GET,
       produces = MULTIPART_FORM_DATA_VALUE
   )
-  public MultiValueMap<String, Object> download (@PathVariable("fileId") String fileId) {
+  public MultiValueMap<String, Object> download(@PathVariable("fileId") String fileId) {
     val multiParts = new LinkedMultiValueMap<String, Object>();
 
     val infoString = "The text for file ID " + fileId + ". Testing unicode €";

@@ -21,9 +21,10 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 
+import feign.form.feign.spring.SubDto.SubEnumeration;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
-
 import lombok.val;
 import org.junit.Assert;
 import org.junit.Test;
@@ -124,7 +125,7 @@ public class SpringFormEncoderTest {
   }
 
   @Test
-  public void upload6CollectionTest () throws Exception {
+  public void upload6CollectionTest() throws Exception {
     List<MultipartFile> list = asList(
         (MultipartFile) new MockMultipartFile("popa1", "popa1", null, "Hello".getBytes(UTF_8)),
         (MultipartFile) new MockMultipartFile("popa2", "popa2", null, " world".getBytes(UTF_8))
@@ -132,5 +133,23 @@ public class SpringFormEncoderTest {
 
     val response = client.upload6Collection(list);
     Assert.assertEquals("Hello world", response);
+  }
+
+  @Test
+  public void upload7Test() {
+    val file1 = new MockMultipartFile("one.txt", "One".getBytes(StandardCharsets.UTF_8));
+    val file2 = new MockMultipartFile("two.txt", "Two".getBytes(StandardCharsets.UTF_8));
+
+    val dto = new SubDto();
+    dto.setSomeEnum(SubEnumeration.THREE)
+        .setSubBool(null)
+        .setSubFile(file2)
+        .setFile(file1)
+        .setField1("Field 1")
+        .setField2(42);
+
+    val response = client.upload7(dto);
+    Assert.assertEquals(200, response.status());
+    Assert.assertEquals(dto.toString(), response.body().toString());
   }
 }
