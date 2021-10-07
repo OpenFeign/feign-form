@@ -149,7 +149,6 @@ public class SpringFormEncoderTest {
         .setField2(42);
 
     val response = client.upload7(dto);
-    Assert.assertEquals(200, response.status());
-    Assert.assertEquals(dto.toString(), response.body().toString());
+    Assert.assertEquals(dto.getSomeEnum().name(), response);
   }
 }

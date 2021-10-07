@@ -20,24 +20,27 @@ import static java.lang.reflect.Modifier.isFinal;
 import static java.lang.reflect.Modifier.isStatic;
 import static lombok.AccessLevel.PRIVATE;
 
+import feign.codec.EncodeException;
+import feign.form.FormProperty;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.rmi.UnexpectedException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-
-import feign.form.FormProperty;
-
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
+import lombok.var;
 
 /**
  *
@@ -57,6 +60,7 @@ public final class PojoUtil {
   }
 
   @SneakyThrows
+  @Deprecated
   public static Map<String, Object> toMap (@NonNull Object object) {
     val result = new HashMap<String, Object>();
     val type = object.getClass();
@@ -75,15 +79,66 @@ public final class PojoUtil {
       }
 
       val propertyKey = field.isAnnotationPresent(FormProperty.class)
-                        ? field.getAnnotation(FormProperty.class).value()
-                        : field.getName();
+          ? field.getAnnotation(FormProperty.class).value()
+          : field.getName();
 
       result.put(propertyKey, fieldValue);
     }
     return result;
   }
 
-  private PojoUtil () throws UnexpectedException {
+  public static Map<String, Object> toMap(
+      final @NonNull Object object,
+      final boolean processTransient) {
+    final var result = new HashMap<String, Object>();
+    var clazz = object.getClass();
+    val setAccessibleAction = new SetAccessibleAction();
+    while (clazz != null) {
+      final var fieldResult = Arrays.stream(clazz.getDeclaredFields())
+          .filter(field -> !Modifier.isFinal(field.getModifiers()) &&
+              (processTransient || !Modifier.isTransient(field.getModifiers())) &&
+              !Modifier.isStatic(field.getModifiers()))
+          .map(field -> toMapDoOnEach(setAccessibleAction, field, object))
+          .filter(entry -> entry.getValue() != null)
+          .collect(Collectors.toMap(
+              Map.Entry::getKey,
+              Map.Entry::getValue,
+              (oldObj, newObj) -> newObj,
+              HashMap::new));
+      result.putAll(fieldResult);
+      clazz = clazz.getSuperclass();
+    }
+    return result;
+  }
+
+  private static void setFieldAccessible(
+      final SetAccessibleAction setAccessibleAction,
+      final Field field) {
+    setAccessibleAction.setField(field);
+    AccessController.doPrivileged(setAccessibleAction);
+  }
+
+  private static Map.Entry<String, Object> toMapDoOnEach(
+      final SetAccessibleAction setAccessibleAction,
+      final Field field,
+      final Object object) throws EncodeException {
+
+    setFieldAccessible(setAccessibleAction, field);
+    try {
+      var fieldValue = field.get(object);
+      if (fieldValue != null && fieldValue.getClass().isEnum()) {
+        fieldValue = ((Enum<?>) fieldValue).name();
+      }
+      final var propertyKey = field.isAnnotationPresent(FormProperty.class)
+          ? field.getAnnotation(FormProperty.class).value()
+          : field.getName();
+      return new AbstractMap.SimpleEntry<>(propertyKey, fieldValue);
+    } catch (Exception err) {
+      throw new EncodeException(err.getMessage(), err);
+    }
+  }
+
+  private PojoUtil() throws UnexpectedException {
     throw new UnexpectedException("It is not allowed to instantiate this class");
   }
 

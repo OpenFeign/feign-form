@@ -113,7 +113,7 @@ public interface Client {
       path = "/multipart/upload7",
       consumes = MULTIPART_FORM_DATA_VALUE
   )
-  Response upload7(@ModelAttribute SubDto dto);
+  String upload7(@ModelAttribute SubDto dto);
 
   class ClientConfiguration {
 

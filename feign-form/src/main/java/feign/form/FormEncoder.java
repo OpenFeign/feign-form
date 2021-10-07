@@ -22,16 +22,15 @@ import static feign.form.util.PojoUtil.toMap;
 import static java.util.Arrays.asList;
 import static lombok.AccessLevel.PRIVATE;
 
+import feign.RequestTemplate;
+import feign.codec.EncodeException;
+import feign.codec.Encoder;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import feign.RequestTemplate;
-import feign.codec.EncodeException;
-import feign.codec.Encoder;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 
@@ -75,7 +74,7 @@ public class FormEncoder implements Encoder {
         new UrlencodedFormContentProcessor()
     );
 
-    processors = new HashMap<ContentType, ContentProcessor>(list.size(), 1.F);
+    processors = new HashMap<>(list.size(), 1.F);
     for (ContentProcessor processor : list) {
       processors.put(processor.getSupportedContentType(), processor);
     }
@@ -95,7 +94,7 @@ public class FormEncoder implements Encoder {
     if (MAP_STRING_WILDCARD.equals(bodyType)) {
       data = (Map<String, Object>) object;
     } else if (isUserPojo(bodyType)) {
-      data = toMap(object);
+      data = toMap(object, false);
     } else {
       delegate.encode(object, bodyType, template);
       return;

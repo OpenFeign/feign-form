@@ -42,7 +42,7 @@ public class PojoWriter extends AbstractWriter {
 
   @Override
   public void write (Output output, String boundary, String key, Object object) throws EncodeException {
-    val map = toMap(object);
+    val map = toMap(object, false);
     for (val entry : map.entrySet()) {
       val writer = findApplicableWriter(entry.getValue());
       if (writer == null) {

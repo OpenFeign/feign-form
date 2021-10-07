@@ -24,6 +24,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import feign.form.feign.spring.SubDto.SubEnumeration;
 import java.io.IOException;
 import java.util.Map;
 import lombok.SneakyThrows;
@@ -139,10 +140,13 @@ public class Server {
       consumes = MULTIPART_FORM_DATA_VALUE
   )
   public ResponseEntity<String> upload7(@ModelAttribute SubDto subDto) {
-    if (subDto.getFile() == null || subDto.getSomeEnum() == null || subDto.getField1() == null) {
-      return ResponseEntity.status(I_AM_A_TEAPOT).body(subDto.toString());
+    assert subDto != null;
+    assert subDto.getSomeEnum() != null;
+    if (subDto.getFile() == null || subDto.getSomeEnum() != SubEnumeration.THREE
+        || subDto.getField1() == null) {
+      return ResponseEntity.status(I_AM_A_TEAPOT).build();
     }
-    return ResponseEntity.status(OK).body(subDto.toString());
+    return ResponseEntity.status(OK).body(subDto.getSomeEnum().name());
   }
 
   @RequestMapping(
