@@ -20,20 +20,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.util.List;
-import java.util.Map;
-
 import feign.Logger;
 import feign.Response;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -99,14 +100,20 @@ public interface Client {
       method = POST,
       consumes = MULTIPART_FORM_DATA_VALUE
   )
-  String upload6Array (@RequestPart MultipartFile[] files);
+  String upload6Array(@RequestPart MultipartFile[] files);
 
   @RequestMapping(
       path = "/multipart/upload6",
       method = POST,
       consumes = MULTIPART_FORM_DATA_VALUE
   )
-  String upload6Collection (@RequestPart List<MultipartFile> files);
+  String upload6Collection(@RequestPart List<MultipartFile> files);
+
+  @PostMapping(
+      path = "/multipart/upload7",
+      consumes = MULTIPART_FORM_DATA_VALUE
+  )
+  String upload7(@ModelAttribute SubDto dto);
 
   class ClientConfiguration {
 
@@ -114,7 +121,7 @@ public interface Client {
     private ObjectFactory<HttpMessageConverters> messageConverters;
 
     @Bean
-    public Encoder feignEncoder () {
+    public Encoder feignEncoder() {
       return new SpringFormEncoder(new SpringEncoder(messageConverters));
     }
 
