@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
     webEnvironment = DEFINED_PORT,
     classes = Server.class,
     properties = {
-        "server.port=8081",
+        "server.port=8082",
         "feign.hystrix.enabled=false"
     }
 )

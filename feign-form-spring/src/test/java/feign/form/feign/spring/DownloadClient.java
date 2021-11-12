@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @FeignClient(
     name = "multipart-download-support-service",
-    url = "http://localhost:8081",
+    url = "http://localhost:8082",
     configuration = DownloadClient.ClientConfiguration.class
 )
 public interface DownloadClient {
