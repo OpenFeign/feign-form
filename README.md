@@ -256,3 +256,10 @@ public interface DownloadClient {
   }
 }
 ```
+### multipart/mixed
+Replace `SpringManyMultipartFilesReader` in the `DownloadClient` example above with `SpringMultipartMixedReader`.
+
+#### TODO
+- update the maven dependency versions, they are out of date
+- refactor a common SpringMultiXXX base class with the common parts of the two Spring readers
+- increment the versions -> 3.8.1
