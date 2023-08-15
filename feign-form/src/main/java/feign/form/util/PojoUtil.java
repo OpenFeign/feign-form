@@ -78,7 +78,20 @@ public final class PojoUtil {
                         ? field.getAnnotation(FormProperty.class).value()
                         : field.getName();
 
-      result.put(propertyKey, fieldValue);
+      //fix missing form field subObject problem
+      if (fieldValue instanceof Collection) {
+        int i = 0;
+        for (Object o : ((Collection) fieldValue)) {
+          Map<String, Object> map = toMap(o);
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+              result.put(propertyKey + "[" + i + "]." + entry.getKey(), entry.getValue());
+            }
+            i++;
+          }
+      } else {
+        result.put(propertyKey, fieldValue);
+      }
+
     }
     return result;
   }
