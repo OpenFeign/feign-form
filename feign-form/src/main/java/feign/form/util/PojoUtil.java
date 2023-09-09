@@ -62,10 +62,6 @@ public final class PojoUtil {
     val type = object.getClass();
     val setAccessibleAction = new SetAccessibleAction();
     for (val field : type.getDeclaredFields()) {
-      val modifiers = field.getModifiers();
-      if (isFinal(modifiers) || isStatic(modifiers)) {
-        continue;
-      }
       setAccessibleAction.setField(field);
       AccessController.doPrivileged(setAccessibleAction);
 
