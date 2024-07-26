@@ -37,6 +37,10 @@ public interface TestClient {
   @Headers("Content-Type: multipart/form-data")
   String upload (@Param("id") Integer id, @Param("public") Boolean isPublic, @Param("file") File file);
 
+  @RequestLine("POST /upload/content")
+  @Headers("Content-Type: multipart/form-data")
+  String upload (@Param("content-type") ContentType contentType, @Param("file") File file);
+  
   @RequestLine("POST /upload")
   @Headers("Content-Type: multipart/form-data")
   String upload (@Param("file") File file);
