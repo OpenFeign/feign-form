@@ -29,6 +29,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.val;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -195,6 +196,19 @@ public class Server {
                  ? OK
                  : I_AM_A_TEAPOT;
     return ResponseEntity.status(status).body(file.getOriginalFilename() + ':' + file.getContentType());
+  }
+
+  @PostMapping(path = "/upload/many_form_data", consumes = MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<String> uploadFormData (
+          @RequestPart("file[]") List<MultipartFile> files
+  ) {
+    val status = files != null
+            ? OK
+            : I_AM_A_TEAPOT;
+    val response = files.stream()
+            .map(file -> file.getOriginalFilename() + ':' + file.getContentType())
+            .collect(Collectors.joining(","));
+    return ResponseEntity.status(status).body(response);
   }
 
   @PostMapping(path = "/submit/url", consumes = APPLICATION_FORM_URLENCODED_VALUE)
