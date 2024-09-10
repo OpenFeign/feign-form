@@ -27,6 +27,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
 
+import feign.form.multipart.ManyFormDataWriter;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 
@@ -65,6 +66,7 @@ public class MultipartFormContentProcessor implements ContentProcessor {
     writers = new LinkedList<>();
     addWriter(new ByteArrayWriter());
     addWriter(new FormDataWriter());
+    addWriter(new ManyFormDataWriter());
     addWriter(new SingleFileWriter());
     addWriter(new ManyFilesWriter());
     addWriter(new SingleParameterWriter());

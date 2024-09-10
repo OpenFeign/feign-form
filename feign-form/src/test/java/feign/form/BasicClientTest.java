@@ -170,6 +170,17 @@ class BasicClientTest {
   }
 
   @Test
+  void testMultipleFormDataList () throws Exception {
+    val formData = asList(
+            new FormData("application/custom-type", "file1.txt", "Allo".getBytes("UTF-8")),
+            new FormData("image/jpeg", "file2.jpg", "Allo".getBytes("UTF-8"))
+    );
+
+    assertThat(API.uploadFormData(formData))
+            .isEqualTo("file1.txt:application/custom-type,file2.jpg:image/jpeg");
+  }
+
+  @Test
   void testSubmitRepeatableQueryParam () throws Exception {
     val names = new String[] { "Milada", "Thais" };
     val stringResponse = API.submitRepeatableQueryParam(names);

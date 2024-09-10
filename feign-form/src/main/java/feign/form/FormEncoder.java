@@ -70,15 +70,23 @@ public class FormEncoder implements Encoder {
    * @param delegate  delegate encoder, if this encoder couldn't encode object.
    */
   public FormEncoder (Encoder delegate) {
+    this(delegate, asList(
+      new MultipartFormContentProcessor(delegate),
+      new UrlencodedFormContentProcessor()
+    ));
+  }
+
+  /**
+   * Constructor with specified delegate encoder and custom processors.
+   *
+   * @param delegate  delegate encoder, if this encoder couldn't encode object.
+   * @param customProcessors processors for mutlipart and url-encoded content types.
+   */
+  public FormEncoder (Encoder delegate, Iterable<ContentProcessor> customProcessors) {
     this.delegate = delegate;
 
-    val list = asList(
-        new MultipartFormContentProcessor(delegate),
-        new UrlencodedFormContentProcessor()
-    );
-
-    processors = new HashMap<ContentType, ContentProcessor>(list.size(), 1.F);
-    for (ContentProcessor processor : list) {
+    processors = new HashMap<ContentType, ContentProcessor>(2, 1.F);
+    for (ContentProcessor processor : customProcessors) {
       processors.put(processor.getSupportedContentType(), processor);
     }
   }
