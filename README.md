@@ -1,5 +1,7 @@
 # Form Encoder
 
+> **IMPORTANT**: the repository is inactive and was merged with the main feign project.
+
 [![build_status](https://travis-ci.org/OpenFeign/feign-form.svg?branch=master)](https://travis-ci.org/OpenFeign/feign-form)
 [![maven_central](https://maven-badges.herokuapp.com/maven-central/io.github.openfeign.form/feign-form/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.openfeign.form/feign-form)
 [![License](http://img.shields.io/:license-apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
