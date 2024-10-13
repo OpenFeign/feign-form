@@ -72,6 +72,10 @@ public interface TestClient {
   @Headers("Content-Type: multipart/form-data")
   String uploadFormData (@Param("file") FormData formData);
 
+  @RequestLine("POST /upload/many_form_data")
+  @Headers("Content-Type: multipart/form-data")
+  String uploadFormData (@Param("file[]") List<FormData> formData);
+
   @RequestLine("POST /submit/url")
   @Headers("Content-Type: application/x-www-form-urlencoded")
   String submitRepeatableQueryParam (@Param("names") String[] names);
