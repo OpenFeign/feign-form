@@ -22,19 +22,17 @@ import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class Dto implements Serializable {
 
   private static final long serialVersionUID = -4218390863359894943L;
 
-  String field1;
+  final String field1;
 
   int field2;
 
