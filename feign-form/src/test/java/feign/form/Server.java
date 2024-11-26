@@ -94,6 +94,17 @@ public class Server {
     }
     return ResponseEntity.status(status).body(file.getSize());
   }
+  
+  @RequestMapping(path = "/upload/content", method = POST)
+  public ResponseEntity<Long> upload (@RequestParam("content-type") ContentType contentType,  @RequestParam("file") MultipartFile file) {
+    HttpStatus status;
+    if (contentType == null) {
+      status = BAD_REQUEST;
+    } else {
+      status = OK;
+    }
+    return ResponseEntity.status(status).body(file.getSize());
+  }
 
   @PostMapping("/upload/files")
   public ResponseEntity<Long> upload (@RequestParam("files") MultipartFile[] files) {
